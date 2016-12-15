@@ -10,6 +10,7 @@
         <module>springboot-msgpack</module>
         <module>springboot-mybatis</module>
         <module>springboot-websocket</module>
+        <module>springboot-jdbc</module>
     </modules>
     <packaging>pom</packaging>
     <name>springboot-sample</name>
