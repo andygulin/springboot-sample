@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>JSONP</title>
+</head>
+<body>
+<div id="name"></div>
+<div id="age"></div>
+<div id="time"></div>
+<script type="text/javascript" src="//cdn.bootcss.com/jquery/3.1.1/jquery.min.js"></script>
+<script type="text/javascript">
+$(function(){
+	var url = "http://localhost:8080/jsonp?callback=?";
+	//var url = "http://localhost:8080/jsonp?jsonp=?";
+	$.getJSON(url,{},function(resp){
+		$("#name").text(resp.name);
+		$("#age").text(resp.age);
+		$("#time").text(resp.time);
+	});
+});
+</script>
+</body>
+</html>
