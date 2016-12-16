@@ -12,3 +12,5 @@
 ---
 [springboot-jdbc](springboot-jdbc/README.md)
 ---
+[springboot-swagger2](springboot-swagger2/README.md)
+---
