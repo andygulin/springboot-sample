@@ -34,7 +34,7 @@
     URL : /user/update
     METHOD : PUT
     BODY : {
-                "id":1
+                "id":1,
                 "name":"update user",
                 "age":123,
                 "address":"update address"
