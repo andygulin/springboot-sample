@@ -12,7 +12,7 @@
     <url>http://maven.apache.org</url>
 
     <properties>
-        <fastjson.version>1.2.20</fastjson.version>
+        <fastjson.version>1.2.24</fastjson.version>
     </properties>
 
     <dependencies>
