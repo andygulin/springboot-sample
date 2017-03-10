@@ -3,17 +3,13 @@
     <parent>
         <artifactId>springboot-sample</artifactId>
         <groupId>springboot.sample</groupId>
-        <version>1.0-SNAPSHOT</version>
+        <version>1.0</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <artifactId>springboot-jdbc</artifactId>
     <packaging>jar</packaging>
     <name>springboot-jdbc</name>
     <url>http://maven.apache.org</url>
-
-    <properties>
-        <fastjson.version>1.2.24</fastjson.version>
-    </properties>
 
     <dependencies>
         <dependency>
@@ -26,7 +22,7 @@
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-redis</artifactId>
+            <artifactId>spring-boot-starter-data-redis</artifactId>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>

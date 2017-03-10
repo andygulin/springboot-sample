@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>springboot.sample</groupId>
     <artifactId>springboot-sample</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.0</version>
     <modules>
         <module>springboot-activemq</module>
         <module>springboot-fastjson</module>
@@ -20,11 +20,18 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>1.4.3.RELEASE</version>
+        <version>1.5.2.RELEASE</version>
     </parent>
 
     <properties>
         <java.version>1.8</java.version>
+        <fastjson.version>1.2.24</fastjson.version>
+        <msgpack.version>0.6.12</msgpack.version>
+        <commons-lang3.version>3.5</commons-lang3.version>
+        <mybatis-spring-boot-starter.version>1.2.0</mybatis-spring-boot-starter.version>
+        <mysql-connector-java.version>5.1.41</mysql-connector-java.version>
+        <pagehelper.version>5.0.0</pagehelper.version>
+        <swagger.version>2.6.1</swagger.version>
     </properties>
 
     <build>
