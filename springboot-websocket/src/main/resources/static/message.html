@@ -1,86 +1,109 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
-<title>WebSocket</title>
-<script src="//cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
-<script src="//cdn.bootcss.com/sockjs-client/1.1.1/sockjs.min.js"></script>
-<script src="//cdn.bootcss.com/stomp.js/2.3.3/stomp.min.js"></script>
-<script type="text/javascript">
-$(function() {
-    var stompClient = null;
-    var socket = new SockJS("/websocket");
-    var isConnect = false;
-
-    stompClient = Stomp.over(socket);
-    stompClient.connect({},
-    function(frame) {
-        isConnect = true;
-        console.log('Connected: ' + frame);
-        stompClient.subscribe('/topic/room',
-        function(data) {
-            console.log("onMessage");
-            $("#list").append("<p> " + data.body + " </p>");
-        });
-    });
-
-    $("#send").click(function() {
-        if (isConnect) {
-            var message = $("#message").val();
-            if (message != "") {
-                stompClient.send("/app/message", {}, message);
-                $("#message").val("").focus();
-            } else {
-                alert("Message Is Empty...");
-            }
-        } else {
-            alert("Not Connect...");
+    <meta charset="UTF-8">
+    <title>WebSocket</title>
+    <script src="//cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
+    <script src="//cdn.bootcss.com/sockjs-client/1.1.2/sockjs.min.js"></script>
+    <script src="//cdn.bootcss.com/stomp.js/2.3.3/stomp.min.js"></script>
+    <script type="text/javascript">
+        function getQueryString(name) {
+            var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+            var r = window.location.search.substr(1).match(reg);
+            if (r != null) return encodeURIComponent(r[2]);
+            return null;
         }
-    });
 
-    $("#message").focus();
-});
-</script>
-<style type="text/css">
-#wapper {
-	margin:0px auto;
-	width:800px;
-}
-#form {
-	margin-top:50px;
-}
-input[type='text'] {
-	width:400px;
-	height:25px;
-	font-size:20px;
-	line-height:25px;
-	margin:5px;
-	padding:5px;
-}
-input[type='button'] {
-	width:150px;
-	height:37px;
-	font-size:20px;
-	line-height:25px;
-	margin:5px;
-	padding:5px;
-}
-#list {
-	margin-top:50px;
-}
-#list p {
-	font-size:20px;
-	padding:5px;
-}
-</style>
+        $(function () {
+            var roomId = getQueryString("roomId");
+            var name = getQueryString("name");
+            var stompClient = null;
+            var socket = new SockJS("/websocket");
+            var isConnect = false;
+
+            stompClient = Stomp.over(socket);
+            stompClient.connect({},
+                function (frame) {
+                    isConnect = true;
+                    console.log('Connected: ' + frame);
+                    stompClient.subscribe('/topic/room/' + roomId,
+                        function (data) {
+                            console.log("onMessage");
+                            var message = JSON.parse(data.body);
+                            var html = [];
+                            html.push("<p>");
+                            html.push(message.name + " Say : " + message.content);
+                            html.push("</p>");
+                            $("#list").append(html.join(""));
+                        });
+                });
+
+            $("#send").click(function () {
+                if (isConnect) {
+                    var content = $("#content").val();
+                    if (content != "") {
+                        var message = {};
+                        message.name = name;
+                        message.roomId = roomId;
+                        message.content = content;
+                        stompClient.send("/app/message", {}, JSON.stringify(message));
+                        $("#message").val("").focus();
+                    } else {
+                        alert("Message Is Empty...");
+                    }
+                } else {
+                    alert("Not Connect...");
+                }
+            });
+
+            $("#message").focus();
+        });
+    </script>
+    <style type="text/css">
+        #wapper {
+            margin: 0px auto;
+            width: 800px;
+        }
+
+        #form {
+            margin-top: 50px;
+        }
+
+        input[type='text'] {
+            width: 400px;
+            height: 25px;
+            font-size: 20px;
+            line-height: 25px;
+            margin: 5px;
+            padding: 5px;
+        }
+
+        input[type='button'] {
+            width: 150px;
+            height: 37px;
+            font-size: 20px;
+            line-height: 25px;
+            margin: 5px;
+            padding: 5px;
+        }
+
+        #list {
+            margin-top: 50px;
+        }
+
+        #list p {
+            font-size: 20px;
+            padding: 5px;
+        }
+    </style>
 </head>
 <body>
 <div id="wapper">
-	<div id="form">
-    	<input type="text" id="message" />
-    	<input type="button" id="send" value="Send Message" />
-  	</div>
-  	<div id="list"></div>
+    <div id="form">
+        <input type="text" id="content"/>
+        <input type="button" id="send" value="Send Message"/>
+    </div>
+    <div id="list"></div>
 </div>
 </body>
 </html>
