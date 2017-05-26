@@ -1,12 +1,12 @@
 package springboot.sample.service;
 
-import java.util.List;
-
 import springboot.sample.bean.User;
+
+import java.util.List;
 
 public interface UserService {
 
-	User getUser(int id);
+    User getUser(int id);
 
-	List<User> getList();
+    List<User> getList();
 }

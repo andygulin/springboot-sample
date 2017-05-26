@@ -4,13 +4,13 @@ import org.springframework.data.redis.core.StringRedisTemplate;
 
 public interface RedisService {
 
-	StringRedisTemplate getRedisTemplate();
+    StringRedisTemplate getRedisTemplate();
 
-	void set(String key, String value);
+    void set(String key, String value);
 
-	String get(String key);
+    String get(String key);
 
-	boolean exist(String key);
+    boolean exist(String key);
 
-	long del(String key);
+    long del(String key);
 }

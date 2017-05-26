@@ -1,16 +1,16 @@
 package springboot.sample.service;
 
-import java.util.List;
-
 import springboot.sample.entity.User;
+
+import java.util.List;
 
 public interface UserService {
 
-	User getUser(Integer id);
+    User getUser(Integer id);
 
-	List<User> getAll();
+    List<User> getAll();
 
-	User save(User user);
+    User save(User user);
 
-	int delete(Integer id);
+    int delete(Integer id);
 }
