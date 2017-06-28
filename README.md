@@ -14,3 +14,7 @@
 ---
 [springboot-swagger2](springboot-swagger2/README.md)
 ---
+[springboot-cassandra](springboot-cassandra/README.md)
+---
+[springboot-elasticsearch](springboot-elasticsearch/README.md)
+---
