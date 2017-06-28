@@ -13,8 +13,8 @@ import java.io.IOException;
 import java.util.Date;
 import java.util.UUID;
 
-@RunWith(SpringRunner.class)
 @SpringBootTest
+@RunWith(SpringRunner.class)
 public class MessageTest {
 
     @Autowired
