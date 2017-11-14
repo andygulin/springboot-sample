@@ -16,10 +16,18 @@ public class Swagger2Config {
 
     @Bean
     public Docket createRestApi() {
-        return new Docket(DocumentationType.SWAGGER_2).apiInfo(apiInfo()).select().apis(RequestHandlerSelectors.basePackage("springboot.sample.controller")).paths(PathSelectors.any()).build();
+        return new Docket(DocumentationType.SWAGGER_2)
+                .apiInfo(apiInfo())
+                .select()
+                .apis(RequestHandlerSelectors.basePackage("springboot.sample.controller"))
+                .paths(PathSelectors.any())
+                .build();
     }
 
     private ApiInfo apiInfo() {
-        return new ApiInfoBuilder().title("Spring Boot With Swagger2").description("Spring Boot With Swagger2 Demo").version("1.0").build();
+        return new ApiInfoBuilder().title("Spring Boot With Swagger2")
+                .description("Spring Boot With Swagger2 Demo")
+                .version("1.0")
+                .build();
     }
 }

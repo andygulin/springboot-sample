@@ -4,6 +4,7 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import springboot.sample.entity.User;
 import springboot.sample.mapper.UserMapper;
+import tk.mybatis.mapper.entity.Example;
 
 import java.util.List;
 
@@ -25,7 +27,7 @@ public class UserController {
 
     @GetMapping("/get/{id}")
     public User get(@PathVariable("id") int id) {
-        return userMapper.select(id);
+        return userMapper.selectByPrimaryKey(id);
     }
 
     @GetMapping("/all")
@@ -35,13 +37,16 @@ public class UserController {
 
     @GetMapping("/page/{pageNo}")
     public PageInfo<User> page(@PathVariable("pageNo") int pageNo) {
-        PageHelper.startPage(pageNo, 5);
-        return new PageInfo<>(userMapper.selectAll());
+        return PageHelper.startPage(pageNo, 5).doSelectPageInfo(() -> userMapper.selectAll());
     }
 
     @GetMapping("/query/{name}")
     public List<User> query(@PathVariable("name") String name) {
-        return userMapper.selectByName(name);
+        Example example = new Example(User.class);
+        if (!StringUtils.isEmpty(name)) {
+            example.createCriteria().andLike("name", "%" + name + "%");
+        }
+        return userMapper.selectByExample(example);
     }
 
     @PutMapping(value = "/insert", consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -52,11 +57,11 @@ public class UserController {
 
     @PutMapping(value = "/update", consumes = MediaType.APPLICATION_JSON_VALUE)
     public int update(@RequestBody User user) {
-        return userMapper.update(user);
+        return userMapper.updateByPrimaryKey(user);
     }
 
     @DeleteMapping("/delete/{id}")
     public int delete(@PathVariable("id") int id) {
-        return userMapper.delete(id);
+        return userMapper.deleteByPrimaryKey(id);
     }
 }

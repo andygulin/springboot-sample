@@ -21,12 +21,12 @@ public class UserController {
     @RequestMapping("/{userId}")
     public ResponseEntity<byte[]> getUser(@PathVariable("userId") int userId) throws IOException {
         MessagePack msgpack = new MessagePack();
-        return new ResponseEntity<byte[]>(msgpack.write(userService.getUser(userId)), HttpStatus.OK);
+        return new ResponseEntity<>(msgpack.write(userService.getUser(userId)), HttpStatus.OK);
     }
 
     @RequestMapping("/all")
     public ResponseEntity<byte[]> getAll() throws IOException {
         MessagePack msgpack = new MessagePack();
-        return new ResponseEntity<byte[]>(msgpack.write(userService.getList()), HttpStatus.OK);
+        return new ResponseEntity<>(msgpack.write(userService.getList()), HttpStatus.OK);
     }
 }

@@ -1,16 +1,24 @@
 package springboot.sample.entity;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 import java.io.Serializable;
 import java.util.Date;
 
+@Entity(name = "user")
 public class User implements Serializable {
 
     private static final long serialVersionUID = -4443079289399790661L;
 
+    @Id
+    @GeneratedValue(generator = "JDBC")
     private int id;
     private String name;
     private int age;
     private String address;
+    @Column(name = "createdAt")
     private Date createdAt;
 
     public int getId() {
