@@ -2,9 +2,9 @@ package springboot.sample;
 
 import com.datastax.driver.core.querybuilder.QueryBuilder;
 import com.datastax.driver.core.querybuilder.Select;
-import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.RandomUtils;
 import org.apache.commons.lang3.time.DateUtils;
+import org.apache.commons.text.RandomStringGenerator;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +21,6 @@ import springboot.sample.repo.UserRepository;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
-import java.util.Iterator;
 import java.util.List;
 import java.util.UUID;
 
@@ -29,32 +28,32 @@ import java.util.UUID;
 @SpringBootTest
 public class CassandraTest {
 
-    protected static final String TABLE_NAME = User.class.getAnnotation(Table.class).value();
+    private static final String TABLE_NAME = User.class.getAnnotation(Table.class).value();
 
     @Autowired
     protected CassandraTemplate cassandraTemplate;
     @Autowired
     protected UserRepository userRepository;
 
-    protected String getId() {
+    private String getId() {
         return UUID.randomUUID().toString().replaceAll("-", "");
     }
 
-    protected String getName() {
-        return RandomStringUtils.random(10, "abcdefghijklmnopqrstuvwxyz1234567890");
+    private String getName() {
+        RandomStringGenerator generator = new RandomStringGenerator.Builder().withinRange('a', 'z').build();
+        return generator.generate(10);
     }
 
-    protected int getAge() {
+    private int getAge() {
         return RandomUtils.nextInt(0, 100) + 10;
     }
 
-    protected String getAddress() {
-        final String[] addrs = {"shanghai", "beijing", "guangzhou", "shenzhen", "hunan", "henan", "xinjiang",
-                "haerbing", "jinan", "nanjing"};
+    private String getAddress() {
+        final String[] addrs = {"shanghai", "beijing", "guangzhou", "shenzhen", "hunan", "henan", "xinjiang", "haerbing", "jinan", "nanjing"};
         return addrs[RandomUtils.nextInt(0, addrs.length - 1)];
     }
 
-    protected Date getCreatedAt() {
+    private Date getCreatedAt() {
         return DateUtils.addDays(new Date(), RandomUtils.nextInt(0, 100) + 10);
     }
 
@@ -103,9 +102,7 @@ public class CassandraTest {
 
     @Test
     public void query() {
-        Iterator<User> iter = userRepository.findAll().iterator();
-        while (iter.hasNext()) {
-            User user = iter.next();
+        for (User user : userRepository.findAll()) {
             System.out.println(user);
         }
     }
@@ -113,9 +110,7 @@ public class CassandraTest {
     @Test
     public void selectByAge() {
         List<User> users = cassandraTemplate.select("SELECT * FROM " + TABLE_NAME + " WHERE age = 10", User.class);
-        for (User user : users) {
-            System.out.println(user);
-        }
+        users.forEach(System.out::println);
     }
 
     @Test
@@ -123,9 +118,7 @@ public class CassandraTest {
         Select select = QueryBuilder.select().from(TABLE_NAME);
         select.where(QueryBuilder.eq("age", 16));
         List<User> users = cassandraTemplate.select(select, User.class);
-        for (User user : users) {
-            System.out.println(user);
-        }
+        users.forEach(System.out::println);
     }
 
     @Test
@@ -133,9 +126,7 @@ public class CassandraTest {
         Select select = QueryBuilder.select().from(TABLE_NAME);
         select.where(QueryBuilder.gte("age", 10)).and(QueryBuilder.lte("age", 15));
         List<User> users = cassandraTemplate.select(select, User.class);
-        for (User user : users) {
-            System.out.println(user);
-        }
+        users.forEach(System.out::println);
     }
 
     @Test
@@ -143,9 +134,7 @@ public class CassandraTest {
         Select select = QueryBuilder.select().from(TABLE_NAME);
         select.where().limit(10);
         List<User> users = cassandraTemplate.select(select, User.class);
-        for (User user : users) {
-            System.out.println(user);
-        }
+        users.forEach(System.out::println);
     }
 
     @Test
