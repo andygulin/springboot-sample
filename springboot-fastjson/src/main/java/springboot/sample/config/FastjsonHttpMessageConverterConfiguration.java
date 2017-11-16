@@ -1,7 +1,7 @@
 package springboot.sample.config;
 
-import com.alibaba.fastjson.support.spring.FastJsonpHttpMessageConverter4;
-import com.alibaba.fastjson.support.spring.FastJsonpResponseBodyAdvice;
+import com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter;
+import com.alibaba.fastjson.support.spring.JSONPResponseBodyAdvice;
 import org.springframework.boot.autoconfigure.web.HttpMessageConverters;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -10,12 +10,12 @@ import org.springframework.context.annotation.Configuration;
 public class FastjsonHttpMessageConverterConfiguration {
 
     @Bean
-    public FastJsonpResponseBodyAdvice fastJsonpResponseBodyAdvice() {
-        return new FastJsonpResponseBodyAdvice("callback", "jsonp");
+    public JSONPResponseBodyAdvice jsonpResponseBodyAdvice() {
+        return new JSONPResponseBodyAdvice();
     }
 
     @Bean
     public HttpMessageConverters httpMessageConverters() {
-        return new HttpMessageConverters(new FastJsonpHttpMessageConverter4());
+        return new HttpMessageConverters(new FastJsonHttpMessageConverter());
     }
 }

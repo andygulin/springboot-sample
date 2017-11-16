@@ -14,24 +14,32 @@ import java.io.Serializable;
 public class MessageHandler {
 
     @JmsListener(destination = "activemq.queue", concurrency = "5-10")
-    public void receiveQueue(@Payload Message message) {
+    public void processMessage(@Payload Message message) {
         if (message instanceof TextMessage) {
-            TextMessage msg = (TextMessage) message;
-            try {
-                String text = msg.getText();
-                System.out.println("Receive TextMessage : " + text);
-            } catch (JMSException e) {
-                e.printStackTrace();
-            }
+            _processTextMessage(message);
         }
         if (message instanceof ObjectMessage) {
-            ObjectMessage msg = (ObjectMessage) message;
-            try {
-                Serializable obj = msg.getObject();
-                System.out.println("Receive ObjectMessage : " + obj);
-            } catch (JMSException e) {
-                e.printStackTrace();
-            }
+            _processObjectMessage(message);
+        }
+    }
+
+    private void _processObjectMessage(Message message) {
+        ObjectMessage msg = (ObjectMessage) message;
+        try {
+            Serializable obj = msg.getObject();
+            System.out.println("Process ObjectMessage : " + obj);
+        } catch (JMSException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void _processTextMessage(Message message) {
+        TextMessage msg = (TextMessage) message;
+        try {
+            String text = msg.getText();
+            System.out.println("Process TextMessage : " + text);
+        } catch (JMSException e) {
+            e.printStackTrace();
         }
     }
 }
